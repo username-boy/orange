@@ -1,7 +1,7 @@
 # orange
 this is a react-component-library .
 
-# cimi
+# orange
 
 ## Getting Started
 

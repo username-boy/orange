@@ -4,7 +4,7 @@
 import { defineConfig } from 'dumi';
 
 export default defineConfig({
-  title: 'cimi', // 网站标题名
+  title: 'orange', // 网站标题名
   // 网站标题旁边图片
   favicon:
     'https://user-images.githubusercontent.com/9554297/83762004-a0761b00-a6a9-11ea-83b4-9c8ff721d4b8.png',
@@ -53,7 +53,7 @@ export default defineConfig({
     },
     {
       title: 'GitHub',
-      path: 'https://github.com',
+      path: 'https://github.com/username-boy/orange',
     },
   ],
 });

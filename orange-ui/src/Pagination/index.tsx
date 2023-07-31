@@ -1,6 +1,6 @@
 import React, {useState, useEffect, FC, useMemo, memo} from 'react';
 import {EllipsisOutlined, LeftOutlined, RightOutlined, DownOutlined} from '@ant-design/icons';
-import {Select} from '..';
+import Select from '../Select/index';
 import './index.module.less';
 
 interface PaginationProps {

@@ -13,11 +13,24 @@ export interface ButtonProps {
      * @description 高度
      */
     height?: Number;
-    show?:boolean;
-    items?:any;
+     /**
+     * @description 是否显示表格
+     * @default true
+     * 
+     */
+    show?:Boolean;
+    /**
+     * @description 表头
+     */
     columns?:any
-    dataSource?:any;
-    cell?:any;
+    /**
+     * @description 显示的数据
+     */
+    items?:any
+    /**
+     * @description 是否为斑马纹 table
+     */
+    cell?:Boolean
     
     
   }

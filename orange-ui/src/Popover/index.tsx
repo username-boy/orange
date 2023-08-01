@@ -1,17 +1,15 @@
 import React, { useMemo, FC, memo, useState, useRef, } from "react";
 import './Popover.module.less'
-import { useLongPress } from 'ahooks'
 import { PopoverProps, PopoverStyle } from "./interface";
 
 const Popover: FC<PopoverProps> = memo((props) => {
-    const { trigger, title, content, width, children,placement } = props
+    const { trigger, title, content, width, children, placement } = props
     const [show, setShow] = useState(false)
     const ref = useRef<HTMLDivElement>(null)
     // 点击
     const click = () => {
         setShow(!show)
-        console.log('click');
-
+        console.log('click', ref);
     }
     // 移入
     const handleMouseEnter = () => {
@@ -21,13 +19,24 @@ const Popover: FC<PopoverProps> = memo((props) => {
     const handleMouseLeave = () => {
         setShow(!show)
     }
-    // 长按
-    useLongPress(() => setShow(!show), ref, {
-        onLongPressEnd: () => setShow(!show)
-    });
+
+    let flag = 0;
+    const MouseDown = () => {
+        flag = setTimeout(longPress, 300)
+        console.log('触发长按',show);
+    }
+
+    const longPress = () => {
+        setShow(true)
+        clearInterval(flag)
+        flag = 0
+    }
+    const MouseUp = () => {
+        setShow(false)
+    }
 
     const popoverStyle = useMemo(() => {
-        if (!trigger && trigger !== 'hover' && trigger !== 'focus' && trigger !== 'manual') {
+        if (!trigger && trigger !== 'hover' && trigger !== 'focus' ) {
             return 'click'
         }
         return trigger as any
@@ -36,7 +45,7 @@ const Popover: FC<PopoverProps> = memo((props) => {
     const popoverSize = useMemo(() => {
         var size: PopoverStyle = {
             width: '80px',
-            position: 'relative',   
+            position: 'relative',
         }
         if (width) {
             size.width = width + 'px'
@@ -44,13 +53,13 @@ const Popover: FC<PopoverProps> = memo((props) => {
         return size
 
     }, [width, content, title])
-    const placementClass=useMemo(()=>{
-        if(!placement && placement !== 'bottom' && placement!=='left' && placement !== 'right'){
+    const placementClass = useMemo(() => {
+        if (!placement && placement !== 'bottom' && placement !== 'left' && placement !== 'right') {
             return 'top'
 
-        }   
+        }
         return placement as any
-    },[placement])
+    }, [placement])
 
     return (
         <div
@@ -59,10 +68,12 @@ const Popover: FC<PopoverProps> = memo((props) => {
             onClick={popoverStyle === 'click' ? click : undefined}
             onMouseEnter={popoverStyle === 'hover' ? handleMouseEnter : undefined}
             onMouseLeave={popoverStyle === 'hover' ? handleMouseLeave : undefined}
+            onMouseDown={popoverStyle === 'focus' ? MouseDown : undefined }
+            onMouseUp={ popoverStyle === 'focus' ? MouseUp : undefined }
             style={popoverSize as any}
         >{children}
             <div className={placementClass}
-            style={{ display: show ? 'block' : 'none' }}
+                style={{ display: show ? 'block' : 'none' }}
             >
                 <div className="title">{title}</div>
                 {content}
@@ -71,7 +82,7 @@ const Popover: FC<PopoverProps> = memo((props) => {
         </div>
 
     )
-    
+
 })
 
 export function getOverlay(title?: PopoverProps['title'], content?: PopoverProps['content']) {
